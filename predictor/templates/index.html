@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Issue Predictor</title>
+  <style>
+    /* ---------- Color Variables ---------- */
+    :root {
+      --light-bg: linear-gradient(135deg, #a1c4fd, #c2e9fb, #b2fefa, #0ed2f7);
+      --dark-bg: linear-gradient(135deg, #00111a, #004d61, #005f73);
+
+      --light-card: rgba(255, 255, 255, 0.25);
+      --dark-card: rgba(0, 60, 80, 0.45);
+
+      --text-light: #003b4a;
+      --text-dark: #dff9fb;
+
+      --btn-light: linear-gradient(135deg, #00c6ff, #0072ff);
+      --btn-dark: linear-gradient(135deg, #00bfa5, #00897b);
+    }
+
+    /* ---------- Base ---------- */
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-size: 300% 300%;
+      transition: background 1s ease, color 1s ease;
+      animation: gradientMove 12s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ---------- Container ---------- */
+    .container {
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 40px 45px;
+      width: 420px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      transition: all 0.8s ease;
+      opacity: 0;
+      transform: translateY(25px);
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      transition: color 0.5s ease;
+    }
+
+    /* ---------- Form ---------- */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    label {
+      text-align: left;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.5s ease;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select {
+      padding: 10px 12px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #222;
+      font-size: 14px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(0, 230, 255, 0.6);
+      transform: scale(1.03);
+    }
+
+    /* ---------- Button ---------- */
+    input[type="submit"] {
+      margin-top: 15px;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 5px 15px rgba(0, 118, 255, 0.3);
+    }
+
+    input[type="submit"]:hover {
+      transform: scale(1.06);
+      box-shadow: 0 8px 25px rgba(0, 255, 200, 0.5);
+    }
+
+    /* ---------- Toggle Button ---------- */
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 22px;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 6px 25px rgba(255, 255, 255, 0.3);
+    }
+
+    /* ---------- Theme Mode ---------- */
+    body.light {
+      background: var(--light-bg);
+    }
+    body.light .container {
+      background: var(--light-card);
+    }
+    body.light h2, body.light label {
+      color: var(--text-light);
+    }
+    body.light input[type="submit"] {
+      background: var(--btn-light);
+    }
+
+    body.dark {
+      background: var(--dark-bg);
+    }
+    body.dark .container {
+      background: var(--dark-card);
+    }
+    body.dark h2, body.dark label {
+      color: var(--text-dark);
+    }
+    body.dark input[type="submit"] {
+      background: var(--btn-dark);
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 480px) {
+      .container {
+        width: 88%;
+        padding: 30px 25px;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="light">
+  <button class="theme-toggle" id="themeToggle" title="Switch Theme">🌙</button>
+
+  <div class="container">
+    <h2> Health Issue Predictor</h2>
+    <form method="POST" action="/predict/">
+      {% csrf_token %}
+      <label>Age:</label>
+      <input type="number" step="any" name="Age" required>
+
+      <label>Gender:</label>
+      <select name="Gender">
+        <option>Male</option>
+        <option>Female</option>
+      </select>
+
+      <label>Country:</label>
+      <input type="text" name="Country" required>
+
+      <label>Coffee Intake (cups/day):</label>
+      <input type="number" step="any" name="Coffee_Intake" required>
+
+      <label>Caffeine (mg):</label>
+      <input type="number" step="any" name="Caffeine_mg" required>
+
+      <label>Sleep Hours:</label>
+      <input type="number" step="any" name="Sleep_Hours" required>
+
+      <label>Sleep Quality:</label>
+      <select name="Sleep_Quality">
+        <option>Good</option>
+        <option>Fair</option>
+        <option>Excellent</option>
+        <option>Poor</option>
+      </select>
+
+      <label>BMI:</label>
+      <input type="number" step="any" name="BMI" required>
+
+      <label>Heart Rate (bpm):</label>
+      <input type="number" step="any" name="Heart_Rate" required>
+
+      <label>Stress Level:</label>
+      <select name="Stress_Level">
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+      </select>
+
+      <label>Physical Activity (hrs/day):</label>
+      <input type="number" step="any" name="Physical_Activity_Hours" required>
+
+      <label>Occupation:</label>
+      <input type="text" name="Occupation" required>
+
+      <label>Smoking (0/1):</label>
+      <input type="number" name="Smoking" required>
+
+      <label>Alcohol Consumption (0/1):</label>
+      <input type="number" name="Alcohol_Consumption" required>
+
+      <input type="submit" value="Predict Health Status">
+    </form>
+  </div>
+
+  <script>
+    //  Theme Toggle with Smooth Fade
+    const toggleBtn = document.getElementById("themeToggle");
+    const body = document.body;
+
+    toggleBtn.addEventListener("click", () => {
+      body.style.transition = "background 1s ease, color 1s ease";
+      body.classList.toggle("dark");
+      body.classList.toggle("light");
+
+      // Change icon dynamically
+      if (body.classList.contains("dark")) {
+        toggleBtn.textContent = " ";
+        toggleBtn.title = "Switch to Light Mode";
+      } else {
+        toggleBtn.textContent = " ";
+        toggleBtn.title = "Switch to Dark Mode";
+      }
+    });
+  </script>
+</body>
+</html>
