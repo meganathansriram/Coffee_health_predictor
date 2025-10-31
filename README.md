@@ -4,7 +4,7 @@
 Coffee Health Predictor is a machine learning–based web application built using Django and XGBoost.
 It predicts possible health issues of a person based on their coffee consumption habits and lifestyle factors such as age, gender, stress level, and sleep quality.
 
-This project demonstrates an end-to-end AI pipeline — from data preprocessing and model training to web integration and deployment.
+This project demonstrates a complete end-to-end AI pipeline — from data preprocessing and model training to web integration and deployment.
 
 🧩 Features
 
@@ -50,36 +50,35 @@ coffee_health_predictor/
 └── requirements.txt                 # Dependencies
 
 🧠 How It Works
-
-Dataset Preparation
+1️⃣ Dataset Preparation
 
 Synthetic dataset of 10,000 records with coffee and health attributes.
 
-Columns include Age, Gender, Coffee_Consumption, Sleep_Quality, Stress_Level, etc.
+Columns include: Age, Gender, Coffee_Consumption, Sleep_Quality, Stress_Level, etc.
 
-Data Preprocessing
+2️⃣ Data Preprocessing
 
 Used LabelEncoder and OneHotEncoder to encode categorical variables.
 
-Split the dataset into training and testing sets using train_test_split().
+Split dataset using train_test_split() for training and testing.
 
-Model Training
+3️⃣ Model Training
 
 Trained an XGBoostClassifier with tuned hyperparameters for better accuracy.
 
 Evaluated model using accuracy_score and classification_report.
 
-Model Saving
+4️⃣ Model Saving
 
 Exported trained model using joblib.dump() for later use.
 
-Web Integration (Django)
+5️⃣ Web Integration (Django)
 
 User enters data through index.html.
 
-views.py loads the trained model and predicts the health outcome.
+views.py loads the model and predicts the health outcome.
 
-Result displayed in result.html.
+Result displayed dynamically in result.html.
 
 🖥️ How to Run Locally
 1️⃣ Clone the repository
@@ -98,7 +97,8 @@ pip install -r requirements.txt
 python manage.py runserver
 
 5️⃣ Open in browser
-http://127.0.0.1:8000/
+
+👉 http://127.0.0.1:8000/
 
 📦 requirements.txt Example
 Django==5.0.4
@@ -110,25 +110,28 @@ joblib==1.4.2
 
 📊 Sample Output
 
-Input: Age = 25, Gender = Male, Sleep_Quality = Poor, Stress_Level = High
+Input:
+Age = 25, Gender = Male, Sleep_Quality = Poor, Stress_Level = High
 
-Output: Predicted Health Issue – “Risk of Heart Problem”
+Output:
+Predicted Health Issue → “Risk of Heart Problem”
 
 🚀 Future Enhancements
 
-Add user authentication and profile storage
+Add user authentication and profile history
 
-Visualize health trends over time
+Visualize health trends and analysis
 
-Deploy online using Render, AWS, or Heroku
+Deploy on Render, AWS, or Heroku
 
-Integrate deep learning models for higher precision
+Integrate Deep Learning models for improved accuracy
 
 👨‍💻 Author
 
 R. Meganathan
 B.Tech – Artificial Intelligence and Data Science
 Karpagam College of Engineering
+
 📧 sriram21214g@gmail.com
 
 🌐 LinkedIn
